@@ -34,22 +34,6 @@ class Player(GameSprite):
         fire_sound.play()
 
 
-class Enemy(GameSprite):
-    def update(self):
-        self.rect.y += self.speed
-        global lost
-        if self.rect.y > 500:
-            self.rect.x = randint(80,620)
-            self.rect.y = 0
-            lost += 1
-
-class Bullet(GameSprite):
-    def update(self):
-        self.rect.y += self.speed
-        if self.rect.y < 0:
-            self.kill()
-    
-
 mixer.init()
 mixer.music.load('Mesmerizing Galaxy Loop.mp3')
 mixer.music.set_volume(0.1)
