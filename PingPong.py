@@ -43,8 +43,15 @@ FPS = 60
 
 racket1 = Player(K_w, K_s, 'racket.png',30, 200, 50, 150, 4)
 racket2 = Player(K_UP, K_DOWN, 'racket.png',520, 200, 50, 150, 4)
+ball = GameSprite('tenis_ball.png', HEIGHT/2-25, WIDTH/2-25, 50, 50, 4)
 
+speed_x = 4
+speed_y = 4
 
+font.init()
+font1 = font.Font(None, 35)
+lose1 = font1.render('PLAYER 1 LOSE!', True, (180,0,0))
+lose2 = font1.render('PLAYER 2 LOSE!', True, (180,0,0))
 
 while game:
     for e in event.get():
@@ -55,9 +62,26 @@ while game:
         window.fill(back)
         racket1.update()
         racket2.update()
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
         
+        if ball.rect.y < 0 or ball.rect.y > HEIGHT-50:
+            speed_y *= -1
+        
+        if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball):
+            speed_x *= -1
+            speed_y *= -1
+
+        if ball.rect.x < 0:
+            finish = True
+            window.blit(lose1, (200,200))
+        if ball.rect.x > WIDTH-50:
+            finish = True
+            window.blit(lose2, (200,200))
+
         racket1.reset()
         racket2.reset()
+        ball.reset()
 
 
     display.update()
