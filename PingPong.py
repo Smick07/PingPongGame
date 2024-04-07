@@ -34,8 +34,8 @@ class Player(GameSprite):
             self.rect.y += self.speed
    
 
-score_x = 0
-score_y = 0
+score1 = 0
+score2 = 0
 game = True
 finish = False
 
@@ -52,8 +52,10 @@ speed_y = 4
 
 font.init()
 font1 = font.Font(None, 35)
-lose1 = font1.render('PLAYER 1 LOSE!', True, (180,0,0))
-lose2 = font1.render('PLAYER 2 LOSE!', True, (180,0,0))
+font2 = font.Font(None, 30)
+lose1 = font1.render('PLAYER LEFT LOSE!', True, (0,0,0))
+lose2 = font1.render('PLAYER RIGHT LOSE!', True, (0,0,0))
+
 
 while game:
     for e in event.get():
@@ -61,9 +63,12 @@ while game:
             game = False
         
     if finish != True:
+        
         window.fill(back)
+        
         racket1.update()
         racket2.update()
+
         ball.rect.x += speed_x
         ball.rect.y += speed_y
         
@@ -81,13 +86,33 @@ while game:
             
             speed_x -= 0.8
             
-            
-        
-
         if ball.rect.x < 0:
+            score2 += 1
+            ball.rect.y = HEIGHT/2-25
+            ball.rect.x = WIDTH/2-25
+            speed_x = 4
+            speed_y = 4
+            print(score1, score2)
+            
+        if ball.rect.x > WIDTH-50:
+            score1 += 1
+            ball.rect.y = HEIGHT/2-25
+            ball.rect.x = WIDTH/2-25
+            speed_x = 4
+            speed_y = 4
+            print(score1, score2)
+            
+        score1_txt = font2.render(str(score1), True, (0,0,0))
+        score2_txt = font2.render(str(score2), True, (0,0,0))
+        
+        window.blit(score1_txt, (WIDTH/2-20,20))
+        window.blit(score2_txt, (WIDTH/2+20,20))
+
+
+        if score2 >= 2:
             finish = True
             window.blit(lose1, (200,200))
-        if ball.rect.x > WIDTH-50:
+        if score1 >= 2:
             finish = True
             window.blit(lose2, (200,200))
 
@@ -101,6 +126,8 @@ while game:
         speed_y = 4
         ball.rect.y = HEIGHT/2-25
         ball.rect.x = WIDTH/2-25
+        score1 = 0
+        score2 = 0
         finish = False
 
     display.update()
