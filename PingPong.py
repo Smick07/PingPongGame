@@ -34,6 +34,8 @@ class Player(GameSprite):
             self.rect.y += self.speed
    
 
+score_x = 0
+score_y = 0
 game = True
 finish = False
 
@@ -41,9 +43,9 @@ finish = False
 clock = time.Clock()
 FPS = 60
 
-racket1 = Player(K_w, K_s, 'racket.png',30, 200, 50, 150, 4)
-racket2 = Player(K_UP, K_DOWN, 'racket.png',520, 200, 50, 150, 4)
-ball = GameSprite('tenis_ball.png', HEIGHT/2-25, WIDTH/2-25, 50, 50, 4)
+racket1 = Player(K_w, K_s, 'racket.png',30, 200, 30, 150, 4)
+racket2 = Player(K_UP, K_DOWN, 'racket.png',520, 200, 30, 150, 4)
+ball = GameSprite('tenis_ball.png', HEIGHT/2-25, WIDTH/2-25, 40, 40, 4)
 
 speed_x = 4
 speed_y = 4
@@ -68,9 +70,19 @@ while game:
         if ball.rect.y < 0 or ball.rect.y > HEIGHT-50:
             speed_y *= -1
         
-        if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball):
+        if sprite.collide_rect(racket1, ball):
+            racket2.speed += 0.4
             speed_x *= -1
-            speed_y *= -1
+            speed_x += 0.8
+        
+        if sprite.collide_rect(racket2, ball):
+            racket1.speed += 0.4
+            speed_x *= -1
+            
+            speed_x -= 0.8
+            
+            
+        
 
         if ball.rect.x < 0:
             finish = True
@@ -83,6 +95,13 @@ while game:
         racket2.reset()
         ball.reset()
 
+    else:
+        time.delay(1000)
+        speed_x = 4
+        speed_y = 4
+        ball.rect.y = HEIGHT/2-25
+        ball.rect.x = WIDTH/2-25
+        finish = False
 
     display.update()
     clock.tick(FPS)
