@@ -92,22 +92,24 @@ while game:
             ball.rect.x = WIDTH/2-25
             speed_x = 4
             speed_y = 4
-            print(score1, score2)
-            
+            racket1.speed = 4
+            racket2.speed = 4
+        
         if ball.rect.x > WIDTH-50:
             score1 += 1
             ball.rect.y = HEIGHT/2-25
             ball.rect.x = WIDTH/2-25
             speed_x = 4
             speed_y = 4
-            print(score1, score2)
+            racket2.speed = 4
+            racket1.speed = 4
+            
             
         score1_txt = font2.render(str(score1), True, (0,0,0))
         score2_txt = font2.render(str(score2), True, (0,0,0))
         
         window.blit(score1_txt, (WIDTH/2-20,20))
         window.blit(score2_txt, (WIDTH/2+20,20))
-
 
         if score2 >= 2:
             finish = True
